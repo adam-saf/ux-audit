@@ -10,7 +10,7 @@ The standard you must meet. Four principles, each with the rules that matter mos
 
 ### Perceivable — users can sense the content
 
-- Text contrast: **4.5:1** minimum for normal text, **3:1** for large text (18px+ regular, 14px+ bold).
+- Text contrast: **4.5:1** minimum for normal text, **3:1** for large text (18pt+ regular or 14pt+ bold; approximately 24px or 18.67px at 96 CSS px per inch).
 - UI component contrast: **3:1** for borders, icons, focus indicators, and other non-text elements against their background.
 - Don't convey information through color alone. Pair color with text, icons, or patterns.
 - Provide text alternatives for all non-decorative images.
@@ -192,7 +192,8 @@ Mobile is not an afterthought. Half your users are on touch devices.
 
 ### Rules
 
-- **Minimum touch target size:** 44x44 CSS pixels (WCAG 2.5.5). Material Design recommends 48x48dp. When in doubt, go bigger.
+- **Touch targets:** WCAG 2.2 AA 2.5.8 requires 24x24 CSS pixels or a specified exception, including sufficient spacing. WCAG 2.5.5 is AAA and uses 44x44 CSS pixels with its own exceptions. Recommend 44x44 for comfortable touch use; do not label every smaller target an AA failure. See [minimum](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) and [enhanced](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html).
+- **Contrast source:** [WCAG 1.4.3](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) defines large text in points, not pixels.
 - **Spacing between targets:** At least 8px gap between adjacent touch targets to prevent mis-taps. More for critical actions (e.g., delete).
 - **No hover-dependent information.** Tooltips, hover cards, and title attributes are invisible on touch devices. If the information matters, make it available through tap, a visible label, or always-visible text.
 - Support both `click` and `touch` events. Modern browsers unify these well — use `click` handlers (they fire on tap). Avoid `mouseenter`/`mouseleave` for essential interactions.
@@ -300,3 +301,4 @@ Run these checks before shipping. Automated tools catch ~30% of issues. The rest
 | Color indicating state | Add a non-color signal: icon, text, pattern, or shape. |
 | Hiding something visually but keeping it for screen readers | Use a visually-hidden CSS class, not `display: none`. |
 | Hiding something from screen readers but keeping it visual | Use `aria-hidden="true"`. |
+

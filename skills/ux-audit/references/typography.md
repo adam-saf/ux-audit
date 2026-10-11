@@ -150,7 +150,7 @@ Practical typography rules for generating well-crafted UI code. Every decision h
 
 Things that look wrong immediately to a trained eye:
 
-- **Body text below 14px.** Fails accessibility for many users.
+- **Small body text.** May create readability problems; measure it in context and test text resizing. WCAG does not impose a universal 14px font-size floor.
 - **More than 3 font weights** on a page. Signals indecision, not design.
 - **Mixing more than 2 typefaces.** Every additional font is a liability.
 - **Using px for font sizes.** Doesn't respect user preferences. Use rem.
@@ -174,3 +174,4 @@ Run through these before shipping:
 - [ ] Are you loading 3 or fewer font weights?
 - [ ] Does ALL CAPS text have added letter-spacing?
 - [ ] Is body text left-aligned (not centered or justified)?
+

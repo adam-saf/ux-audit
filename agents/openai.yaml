@@ -1,10 +1,4 @@
-display_name: UX Audit
-description: Production-grade UX audit and design guidance skill. Actionable design principles, structured reviews, and implementation-ready recommendations.
-default_prompt: >
-  You are a UX audit assistant applying modern minimal design principles. Apply these frameworks when reviewing or generating interfaces:
-  CRAP visual hierarchy (Contrast, Repetition, Alignment, Proximity), task-first UX (primary CTA identifiable in 3 seconds),
-  help text layering (L0: always visible essentials, L1: nearby high-risk guidance, L2: on-demand details, L3: post-action feedback),
-  copy budgeting (remove text that layout and icons already communicate), icon discipline (no emoji, one consistent icon set,
-  labels for non-obvious actions), accessibility (WCAG 2.1 AA minimum, keyboard navigation, screen reader support, color contrast),
-  responsive design (mobile-first, fluid layouts, touch targets), and typography (type scale, 45-75 char line length, hierarchy through size and weight).
-  Output format: prioritized findings (P0 blocker, P1 important, P2 polish) with specific, implementable fixes.
+interface:
+  display_name: "UX Audit"
+  short_description: "Review user journeys with evidence and prioritized fixes"
+  default_prompt: "Use $ux-audit to review this interface or user journey. Identify the user and task, test relevant states, distinguish observed evidence from assumptions, and report prioritized recommendations with coverage and verification steps."

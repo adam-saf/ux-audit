@@ -50,8 +50,8 @@ function computeScores(findings) {
   const overall = Math.max(0, 100 - total);
   return {
     overall,
-    afterP0: Math.min(100, overall + p0d),
-    afterP1: Math.min(100, overall + p0d + p1d),
+    afterP0: Math.max(0, 100 - (total - p0d)),
+    afterP1: Math.max(0, 100 - (total - p0d - p1d)),
     dims,
     affected: Object.values(dims).filter(d => d.count > 0).length,
   };
@@ -71,14 +71,6 @@ function scoreColor(s) {
   if (s >= 55) return '#b45309';
   if (s >= 40) return '#c2410c';
   return '#b91c1c';
-}
-
-function scoreInsight(score, p0) {
-  if (score >= 85) return 'Strong design fundamentals. Focus on the remaining polish items.';
-  if (score >= 70) return 'Solid foundation with notable issues. Fixing them will significantly elevate the experience.';
-  if (score >= 55) return 'Several issues are undermining the experience. Prioritize the blockers first.';
-  if (score >= 40) return `${p0} blocker${p0 !== 1 ? 's' : ''} actively hurting credibility. These are why it looks amateur\u2009\u2014\u2009fix them first.`;
-  return 'Critical design problems throughout. Foundational fixes are needed before polish matters.';
 }
 
 // ── SVG Helpers ────────────────────────────────────────────────────────────────
@@ -120,7 +112,9 @@ function buildReport(d) {
   const p2 = d.findings.filter(f => f.priority === 'P2');
   const date = d.meta.date || new Date().toISOString().slice(0, 10);
   const scores = computeScores(d.findings);
-  const insight = scoreInsight(scores.overall, p0.length);
+  const includeScores = d.meta.includeHeuristicScores === true;
+  const coverage = d.meta.coverage || "Coverage not supplied; untested behavior is not a pass.";
+  const insight = "Unvalidated arithmetic heuristic based on reported findings. This is not a readiness, compliance, or user-success measure.";
 
   // Progress steps for roadmap
   const steps = [{ score: scores.overall, label: 'Now', cls: 'current' }];
@@ -136,7 +130,7 @@ function buildReport(d) {
   <meta name="robots" content="noindex">
   <title>UX Audit \u2014 ${esc(d.meta.appName)}</title>
   <meta property="og:title" content="UX Audit \u2014 ${esc(d.meta.appName)}">
-  <meta property="og:description" content="Score: ${scores.overall}/100 \u2014 ${d.findings.length} issues found across ${scores.affected} dimensions">
+  <meta property="og:description" content="${d.findings.length} reported findings; review coverage and limitations">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -163,11 +157,12 @@ function buildReport(d) {
   </header>
 
   <!-- Score Dashboard -->
-  <section class="dashboard">
+  ${includeScores ? `<section class="dashboard">
+    <p class="dash-insight">Unvalidated heuristic scores — reported findings only; untested dimensions do not imply quality.</p>
     <div class="dash-top">
       <div class="score-hero">
         ${donutSvg(scores.overall)}
-        <span class="score-grade" style="color:${scoreColor(scores.overall)}">${scoreLabel(scores.overall)}</span>
+        <span class="score-grade" style="color:${scoreColor(scores.overall)}">Heuristic score</span>
       </div>
       <div class="score-dims">
         <span class="dims-title">Dimension Breakdown</span>
@@ -196,7 +191,9 @@ function buildReport(d) {
         <span class="stat-sub">${scoreLabel(scores.overall).toLowerCase()}</span>
       </div>`}
     </div>
-  </section>
+  </section>` : ''}
+
+  <section class="summary"><h2>Coverage and limitations</h2><p>${esc(coverage)}</p><p>${p0.length} blockers, ${p1.length} important findings, ${p2.length} refinements. Counts describe reported issues, not all possible issues.</p></section>
 
   <!-- Summary -->
   ${d.summary?.issuePattern || d.summary?.strongestAspect ? `<section class="summary">
@@ -217,7 +214,7 @@ function buildReport(d) {
     <div class="ring-header ring-p0">
       <span class="ring-badge badge-p0">P0</span>
       <span class="ring-title">Blocker</span>
-      <span class="ring-desc">Prevents task completion, kills credibility, or blocks user groups</span>
+      <span class="ring-desc">Prevents task completion, causes data loss, or excludes a user group</span>
     </div>
     ${p0.map((f, i) => findingCard(f, i + 1)).join('\n')}
   </section>` : ''}
@@ -243,8 +240,8 @@ function buildReport(d) {
   <!-- Fix Roadmap -->
   ${d.findings.length ? `<section class="roadmap">
     <h2>Fix Roadmap</h2>
-    <p class="roadmap-intro">Copy each fix into your AI coding tool. Start with P0\u2009\u2014\u2009these are why it looks amateur.</p>
-    ${steps.length > 1 ? `<div class="progress-bar">
+    <p class="roadmap-intro">Review recommendations in task-impact order. Implement only within separately authorized scope, then verify the user outcome.</p>
+    ${includeScores && steps.length > 1 ? `<div class="progress-bar">
       ${steps.map((s, i) => `<div class="progress-step${s.cls ? ' ' + s.cls : ''}">
         <span class="progress-num" style="color:${scoreColor(s.score)}">${s.score}</span>
         <span class="progress-lbl">${esc(s.label)}</span>
@@ -262,7 +259,7 @@ function buildReport(d) {
   <!-- Methodology -->
   <section class="methodology">
     <h2>Methodology</h2>
-    <p>This audit evaluates against 12 core UX principles spanning visual design, cognitive design, architecture, interaction design, and accessibility. Each finding is grounded in design science\u2009\u2014\u2009not opinion.</p>
+    <p>This audit evaluates against 12 core UX principles spanning visual design, cognitive design, architecture, interaction design, and accessibility. Design principles guide the review; evidence, confidence, and coverage determine what can be concluded. Recommendations require verification.</p>
     <div class="principle-grid">
       ${PRINCIPLES.map(p => `<span class="principle-tag">${esc(p)}</span>`).join('\n      ')}
     </div>
@@ -298,6 +295,8 @@ function findingCard(f, num) {
         <div class="fb-section">
           <span class="fb-label">Evidence</span>
           <p class="fb-text">${esc(f.evidence)}</p>
+          <p class="fb-text">Confidence: ${esc(f.confidence || "Not supplied")}</p>
+          <p class="fb-text">Verify: ${esc(f.verification || "Not supplied")}</p>
         </div>
         <div class="fb-section">
           <span class="fb-label">Impact</span>
@@ -532,3 +531,4 @@ const outFile = outputPath || 'audit-report.html';
 
 writeFileSync(resolve(outFile), buildReport(data), 'utf-8');
 console.log(`Report written to ${outFile}`);
+

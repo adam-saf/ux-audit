@@ -305,3 +305,10 @@ This fork rewrote it in English and filled the gaps: accessibility, responsive d
 ## License
 
 [Apache License 2.0](./LICENSE.txt) — Built by [Naren Katakam](https://narenkatakam.com). Original work by [oil-oil](https://github.com/oil-oil).
+
+
+## Evidence-based fork defaults
+
+This fork adds journey coverage, confidence, read-only review boundaries, corrected WCAG thresholds, and Codex metadata inside the installable skill. Product conventions take precedence over generic aesthetics; preserve substantive learning content. Reports have no overall score by default. Optional `meta.includeHeuristicScores: true` enables an explicitly unvalidated arithmetic heuristic. Supply `meta.coverage` and finding `confidence` and `verification` fields.
+
+Install the `skills/ux-audit` directory using Codex Skill Installer from the reviewed branch or commit. The installed directory includes its own `agents/openai.yaml`; no application runtime dependency or AGENTS.md replacement is needed.

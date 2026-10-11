@@ -95,7 +95,7 @@ padding: clamp(1rem, 2vw, 3rem);
 
 **Core idea:** Touch and mouse are fundamentally different input modes. Design for both without making either worse.
 
-- Minimum touch target: **44x44 CSS pixels** (Apple HIG) / **48x48 dp** (Material). This is non-negotiable.
+- Comfortable touch targets: aim for **44x44 CSS pixels** on the web where practical. Distinguish this recommendation from WCAG 2.2 AA 2.5.8 (**24x24 CSS pixels** or a specified exception) and WCAG 2.5.5 AAA (**44x44** with exceptions). See `accessibility.md`.
 - Minimum gap between interactive elements: **8px**. Cramped buttons cause mis-taps.
 - Hover is a **progressive enhancement**. Never gate functionality behind hover states. Tooltips, dropdown menus on hover, hover-to-reveal actions — all need tap/click alternatives on touch.
 - Swipe gestures must have visible button alternatives. Not everyone discovers gestures.
@@ -254,3 +254,4 @@ Content panels live off-screen on mobile, slide in on interaction. Sidebar navig
 - [ ] Check notch/safe-area handling on modern phones (`env(safe-area-inset-*)`)
 
 **Review question:** Have you tested this on a device you'd actually use, under conditions a real user would face?
+

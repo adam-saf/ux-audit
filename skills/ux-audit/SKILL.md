@@ -1,13 +1,10 @@
 ---
 name: ux-audit
 description: >
-  Production-grade UX audit and design guidance skill. Transforms vague design feedback into
-  actionable, implementable recommendations. Two modes: `guide` (principles + do/don't rules
-  for modern interfaces) and `review` (structured audit with prioritized fixes). Covers
-  task-first UX, information architecture, CRAP visual hierarchy, accessibility, responsive
-  design, typography, color systems, cognitive psychology, and interaction patterns.
-  Enforces a modern minimal aesthetic — clean, spacious, typography-led — with zero tolerance
-  for emoji-as-icons, decoration-first design, or AI-generated visual excess.
+  Review interfaces and user journeys with prioritized, evidence-based UX findings,
+  or provide design guidance. Use for usability, navigation, feedback, mobile,
+  accessibility, and first-use audits of live apps, screenshots, mocks, or code.
+  Reviews recommend changes; implementation requires a separate request.
 ---
 
 # UX Audit — Design Guidance & Review (Modern Minimal)
@@ -74,20 +71,22 @@ Keep outputs concise. Bullets over paragraphs. Specific over generic.
 
 ### 2) Review workflow
 
-1. State assumptions (platform, target user, primary task).
-2. List findings as `P0 / P1 / P2` (blocker / important / polish) with short evidence.
-3. For each major issue, label the diagnosis: execution vs evaluation gulf; slip vs mistake (see `references/psychology.md`).
-4. Propose fixes that are implementable (layout, hierarchy, components, copy, states).
-5. Check accessibility compliance against `references/accessibility.md`.
-6. End with a short checklist to verify changes.
+1. Define the user, permissions, starting state, primary task, time budget, and success criterion. For a journey, trace entry through completion, feedback, recovery, and repeat use.
+2. Record the version, routes, viewport, fixture or real account, and tested states. Separate observed interactions, source-code evidence, assumptions, and untested behavior. A screenshot cannot prove an interaction; a fixture cannot prove live persistence or permissions.
+3. Consult the applicable references and checklists. Product purpose, repository guidance, established components, and accessibility requirements take precedence over generic aesthetic or architecture preferences in this skill.
+4. Report only supported findings. Use P0 for task blockers, data loss, or exclusion of a user group; P1 for substantial friction; P2 for refinement. Visual taste alone is not P0. Include evidence location, affected task, confidence, recommendation, and a verification step. Diagnosis labels are useful hypotheses, not proof of a cause.
+5. Review accessibility against specific applicable criteria. Distinguish measured failures from recommended improvements and untested criteria; do not claim compliance from a visual review.
+6. End with coverage, limitations, what already works, prioritized next steps, and checks for the intended outcome. Do not require a minimum finding count or generate an overall score by default. Any requested numeric score must be labeled an unvalidated heuristic, not a readiness or compliance measure.
 
-Use `references/review-template.md` for a stable output format.
+Review mode is read-only unless the user separately requests implementation. Do not modify the application, send invitations, or alter customer data as part of an audit. User-authorized disposable local fixtures are appropriate; label their limitations.
+
+Use `references/review-template.md` for a stable output format. Preserve substantive learning content, transcripts, coaching, and necessary instructions; copy reduction applies to redundant interface explanation, not to the product's purpose.
 
 ---
 
 ## Non-Negotiables (hard rules)
 
-These are binary. No exceptions.
+Accessibility requirements are mandatory. The remaining design defaults apply within the product context and do not override repository conventions or a demonstrated user need.
 
 - **No emoji as icons** — no emoji as UI decoration, status indicators, section markers, or button labels. Replace with a proper icon from a consistent set.
 - **One icon family** — use a single consistent icon set across the product. No mixing outlined/filled/3D/emoji styles.
@@ -113,7 +112,7 @@ Key principles: concept constancy / primary task focus / UI copy source discipli
 The thing about any interface is that it exists to serve a task. Not to look good. Not to impress stakeholders. To help someone do something.
 
 - Make the primary task obvious in <3 seconds.
-- Allow exactly one primary CTA per screen/section.
+- Make the next action clear for the current task; use one dominant action where appropriate, with necessary alternatives available.
 - Optimize the happy path; hide advanced controls behind progressive disclosure.
 - Remove anything that doesn't serve the user's current goal.
 
@@ -406,7 +405,7 @@ Review question: Can a user who can't see color, can't use a mouse, or can't see
 
 - Design for the smallest screen first, then enhance for larger ones.
 - Content hierarchy should be preserved across breakpoints, not just reflowed.
-- Touch targets: minimum 44x44 CSS px (web) / 48x48 dp (mobile).
+- Aim for 44x44 CSS px touch targets where practical; this is an ergonomic recommendation and WCAG 2.5.5 AAA. WCAG 2.2 AA 2.5.8 requires 24x24 CSS px or a specified exception. See `references/accessibility.md`.
 - Full guidance: `references/responsive-design.md`.
 
 **Do:**
@@ -548,7 +547,7 @@ Restraint is the design tool. These are concrete rules, not vibes.
 - **Grays do the heavy lifting** — hierarchy comes from weight and shade, not from adding more colors.
 
 ### Whitespace
-- **Whitespace:content ratio** — aim for roughly 40-50% whitespace on content-heavy pages, 50-60% on landing/hero pages.
+- **Whitespace** — use spacing that supports scanning and the task. Do not impose a fixed whitespace percentage on content-heavy screens.
 - **Section spacing** — minimum 48px between major sections, 24px between related groups. If content feels dense, add space before adding borders.
 - **Let content breathe** — dense information is not the same as useful information.
 
@@ -602,7 +601,7 @@ Before finalizing generated UI, verify these items. Violating any one is a manda
 - **Copy necessity** — for every piece of text, ask: if I remove this, can the user still understand through layout, icons, and position alone? If yes, remove it.
 - **Decoration justification** — every purely visual effect (blur, glow, animated entrance, layered shadows) must answer: "what does this help the user understand?" No answer = remove.
 - **Contrast check** — run a quick contrast check on all text/background combinations. WCAG AA minimum.
-- **Touch target check** — all interactive elements meet minimum 44x44 CSS px.
+- **Touch target check** — evaluate WCAG 2.2 AA 2.5.8 target size and exceptions; recommend 44x44 CSS px for comfortable touch use.
 - **Keyboard test** — tab through the entire interface. Can you reach and activate every interactive element? Is focus visible?
 
 ---
@@ -634,3 +633,4 @@ Before finalizing generated UI, verify these items. Violating any one is a manda
 - Modals & Overlays: `checklists/modals.md`
 - Navigation: `checklists/navigation.md`
 - Dashboards: `checklists/dashboards.md`
+

@@ -41,7 +41,7 @@ Practical navigation patterns for generating well-structured UI code. Navigation
 - Don't hide labels to save space — icon-only bottom bars hurt discoverability.
 
 **Hamburger menu:**
-- Hides navigation behind an icon. **Last resort** — reduces discoverability by up to 50%.
+- Hides navigation behind an icon, which can reduce discoverability. Test access to frequent tasks in the product context; do not assume a universal percentage effect.
 - Acceptable on mobile when you have too many items for a bottom bar.
 - Never use as sole navigation on desktop. Users expect visible primary nav.
 
@@ -86,7 +86,7 @@ Home > Products > Laptops > MacBook Pro 16"
 - Use for related views of a single subject: Overview / Activity / Settings for a user profile, for example.
 - **Active tab must be visually obvious.** Underline, background color change, or both. No ambiguity.
 - **Max 7 tabs.** More than that means you need a different pattern (sidebar, dropdown, or IA restructure).
-- Tabs should **not change the URL** in most cases. They represent local state, not distinct pages.
+- Tabs may encode selection in the URL for deep links, refresh, and browser history. Follow the product routing contract; preserve focus and context.
 - Content below tabs should update **without full page reload**. If the page reloads, they're not tabs — they're nav links styled as tabs.
 - On mobile: **scrollable tabs** (horizontal swipe) or a dropdown selector. Don't stack tabs vertically.
 
@@ -95,7 +95,7 @@ Home > Products > Laptops > MacBook Pro 16"
 - `aria-selected="true"` on active tab, `aria-selected="false"` on others.
 - Keyboard nav: arrow keys move between tabs, Enter/Space activates.
 
-**Review question:** If you deep-linked to a tab, would the URL make sense? If yes, they might actually be navigation, not tabs.
+**Review question:** Does tab selection preserve context and provide appropriate keyboard, refresh, deep-link, and browser-history behavior?
 
 ---
 
@@ -193,3 +193,4 @@ Use this to audit any navigation implementation before shipping.
 - [ ] Does the URL structure mirror the navigation hierarchy?
 - [ ] Are there fewer than 7 items at any single navigation level?
 - [ ] On resize from desktop to mobile, does nav degrade gracefully (not break or disappear)?
+

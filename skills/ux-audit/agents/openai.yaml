@@ -1,0 +1,4 @@
+interface:
+  display_name: "UX Audit"
+  short_description: "Review user journeys with evidence and prioritized fixes"
+  default_prompt: "Use $ux-audit to review this interface or user journey. Identify the user and task, test relevant states, distinguish observed evidence from assumptions, and report prioritized recommendations with coverage and verification steps."

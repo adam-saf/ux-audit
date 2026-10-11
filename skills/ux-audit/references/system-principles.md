@@ -39,17 +39,11 @@ Each principle includes a definition, practical details, and a review question.
 
 ## 3. UI Copy Source Discipline
 
-**Definition:** Every string visible to the user must come from a controlled, reviewable source — never hardcoded in component logic.
+**Definition:** User-facing copy should be consistent, traceable, and reviewable.
 
-**Details:**
+Follow the repository's existing copy and localization conventions. Do not introduce a centralized copy layer solely to satisfy this audit. Recommend architectural changes only when a demonstrated product or localization need warrants them.
 
-- All user-facing text belongs in a dedicated copy layer: i18n files, CMS, constants file, or a copy module. Not scattered through JSX, templates, or component props as raw strings.
-- This enables: copy review without code review, localization, A/B testing on copy, and consistency audits.
-- Error messages, empty states, tooltips, button labels, confirmation dialogs, placeholder text — all of it. If a user can read it, it belongs in the copy source.
-- Copy review cadence: every sprint, scan the copy source for inconsistencies — different terms for the same action, inconsistent sentence case vs. title case, conflicting tone.
-- Naming conventions matter: `action.delete.confirm` is traceable; a string buried in `components/Modal/index.tsx` line 47 is not.
-
-**Review question:** Can a content designer review and update every user-facing string without opening a single component file?
+**Review question:** Can reviewers find and maintain the wording, and does the same concept use consistent terminology?
 
 ---
 
@@ -67,8 +61,8 @@ Signal hierarchy (strongest to weakest):
 4. **Text change** — a label updates. Weakest — easy to miss in dense UIs.
 
 Rules:
-- Important state changes require signals at level 1 or 2. Don't rely on text alone for errors or status transitions.
-- Combine signals for critical states: an error should produce a layout shift (inline message appears) + color change (red border) + icon (error icon) + text (what went wrong).
+- Make important changes perceivable in context, including accessible status or alert announcements. Do not require movement or color to communicate a state.
+- Combine meaningful text and appropriate non-color signals for critical states. Reserve space where practical to avoid disruptive layout shifts.
 - Transient feedback (toast, snackbar) should be used for confirmations, not for state changes the user needs to track.
 - If a state change happens silently, it didn't happen from the user's perspective.
 
@@ -96,7 +90,7 @@ Rules:
 - L3 links should open in context (panel, modal) rather than navigating away. Don't break the user's flow for help.
 - Anti-pattern: long paragraphs of instructional text above a form. If you need a paragraph to explain a form, the form is too complex.
 
-**Review question:** Remove all help text (L1-L3). Is the screen still usable for the primary task? If not, L0 has failed.
+**Review question:** Which guidance helps a newcomer act safely and confidently? Keep necessary context visible; use optional layers for depth. Preserve learning content, coaching, transcripts, and content essential to the task.
 
 ---
 
@@ -213,3 +207,4 @@ Rules:
 - Version transitions: maintain visual and interaction continuity. A redesigned screen should still feel like the same product.
 
 **Review question:** If a regular user returns after a 2-week absence, will they recognize the interface and find their workflows intact?
+

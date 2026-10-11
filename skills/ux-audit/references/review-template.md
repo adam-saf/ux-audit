@@ -13,6 +13,8 @@ Standard format for design review output. Use this template to ensure reviews ar
 **Target user:** [Brief description]
 **Primary task:** [What the user is trying to accomplish]
 **Reviewed against:** [Screenshot / Figma link / live URL / PR]
+**Version and coverage:** [Commit, routes, viewport, role, fixture or real account, tested states]
+**Untested:** [Interactions, permissions, persistence, accessibility criteria not verified]
 ```
 
 ---
@@ -67,9 +69,13 @@ Tag each finding with the root cause. This guides the type of fix.
 
 **Evidence:** [What was observed — specific, factual. Reference the screenshot region, element, or interaction.]
 
+**Confidence:** [High / medium / low, with reason; identify observation, code evidence, or inference]
+
 **Impact:** [Who is affected and how. What task is impaired.]
 
 **Fix:** [Specific, implementable recommendation. Component, copy, layout, or code-level.]
+
+**Verify:** [Concrete test that would demonstrate the recommended outcome]
 
 **Principle:** [Which principle from system-principles.md or SKILL.md this violates — optional but useful for pattern tracking.]
 ```
@@ -107,10 +113,10 @@ Run after fixes are applied. **Essential** items must pass before shipping. **Po
 7. [ ] Color contrast meets WCAG AA (4.5:1 text, 3:1 UI components)
 8. [ ] Color is not the sole indicator of state or meaning
 9. [ ] All interactive elements are keyboard-accessible with visible focus
-10. [ ] Touch targets meet 44x44px minimum
+10. [ ] Evaluate WCAG 2.2 AA 2.5.8: 24x24 CSS px or a specified exception; recommend 44x44 CSS px for comfort
 11. [ ] Focus order matches visual reading order
 12. [ ] Same concept = same name, icon, component, and behavior across screens
-13. [ ] Every action produces visible feedback within 100ms
+13. [ ] Actions respond promptly; long operations show honest progress, completion, and recovery states
 14. [ ] Destructive actions confirm what will be lost
 15. [ ] Labels are clear and action-oriented (verbs on buttons, nouns on nav)
 
@@ -145,7 +151,7 @@ Apply the relevant gate based on what surface you're reviewing. Not all gates ap
 
 ### Universal States
 
-Every data-driven component must handle all of these states. Missing any one is a bug.
+Select states relevant to the product and task. Mark each as tested, untested, or not applicable; untested is not a pass. Offline caching and queued writes require an explicit product contract, not a generic audit recommendation.
 
 - [ ] **Loading** — skeleton or placeholder that preserves layout. No spinners that collapse content. No blank screens.
 - [ ] **Empty** — meaningful empty state with guidance. "No projects yet. Create your first project." Not just blank space.
@@ -232,10 +238,10 @@ Every data-driven component must handle all of these states. Missing any one is 
 
 ## Example Findings
 
-### P0 — Form: No feedback after submission
+### P1 — Form: No feedback after submission
 
 ```
-### P0 — No feedback after form submission
+### P1 — No feedback after form submission
 
 **Diagnosis:** Feedback gap / Gulf of Evaluation
 
@@ -347,3 +353,8 @@ Every data-driven component must handle all of these states. Missing any one is 
 
 **Principle:** Feedback loop closure (system-principles.md #6), Consistency (Principle D).
 ```
+
+
+## Review boundaries
+
+No minimum finding count or default overall score. Priorities reflect task impact, not aesthetic preference. Recommendations do not authorize implementation. State coverage and limitations before making readiness claims; preserve substantive product content.

@@ -68,8 +68,8 @@ Practical reference for building and reviewing color systems in UI. Use this whe
 **Core idea:** If it doesn't pass contrast checks, it doesn't ship. No exceptions for "it looks fine to me."
 
 - **WCAG AA minimums:**
-  - Normal text (<18px or <14px bold): **4.5:1** contrast ratio
-  - Large text (18px+ or 14px+ bold): **3:1**
+  - Normal text (below 18pt regular or 14pt bold): **4.5:1** contrast ratio
+  - Large text (18pt+ regular or 14pt+ bold; about 24px or 18.67px): **3:1**
   - UI components and graphical objects (icons, borders, form controls): **3:1**
 - **Test every text/background combination.** Not just the hero section. Every card, every tooltip, every disabled state, every overlay. Contrast bugs hide in the combinations you didn't check.
 - **Gray text on white:** `#767676` is the lightest gray that passes AA on white (`#FFFFFF`). Anything lighter fails. `#999999` on white is a 2.85:1 ratio — that fails. This catches people constantly.
@@ -236,3 +236,4 @@ Run this before shipping any interface or approving any color system.
 - [ ] **Color blindness simulation:** Has the interface been tested with deuteranopia simulation at minimum? (Use Chrome DevTools > Rendering > Emulate vision deficiencies, or Stark plugin in Figma.)
 - [ ] **Token coverage:** Are all colors referenced via semantic tokens, or are there raw hex/rgb values in component code?
 - [ ] **Accent discipline:** Is there exactly one primary accent color, or are multiple colors competing for the "primary action" role?
+
